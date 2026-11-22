@@ -1,9 +1,9 @@
 # 클릭존 배포 및 등록 가이드
 
 ## 0. 배포 전 꼭 바꿔야 할 것
-- `contact.html`, `en/contact.html`의 이메일 주소(`contact@clickzone.example`)를 실제 연락용 이메일로 교체
-- `sitemap.xml`, `robots.txt`의 `https://YOUR-DOMAIN-HERE`를 실제 배포 주소로 교체 (1단계에서 주소가 정해진 뒤 진행)
-- 광고 자리(`<div class="ad-slot">...</div>`, 게임 파일의 `#ad-top`/`#ad-bottom`)는 애드센스 심사 통과 후 `<ins class="adsbygoogle">` 코드로 교체
+- [x] 문의 이메일: `aikoodaekking@gmail.com` 으로 교체 완료 (`contact.html`, `en/contact.html`)
+- [ ] `sitemap.xml`, `robots.txt`의 `https://YOUR-DOMAIN-HERE`를 실제 배포 주소로 교체 (1단계에서 주소가 정해진 뒤 진행)
+- [ ] 광고 자리(`<div class="ad-slot">...</div>`, 게임 파일의 `#ad-top`/`#ad-bottom`)는 애드센스 심사 통과 후 `<ins class="adsbygoogle">` 코드로 교체
 
 ---
 
@@ -57,7 +57,7 @@
 ### 신청 전 체크리스트 (반려를 피하기 위해)
 - [ ] 콘텐츠 페이지가 충분한가 (이 사이트는 블로그 10개 + 게임 페이지 + 소개/문의/정책 페이지로 구성되어 있음)
 - [ ] 개인정보처리방침(`privacy.html`) / 이용약관(`terms.html`) 페이지가 있는가 → 이미 포함됨
-- [ ] 실제 연락 가능한 이메일이 `contact.html`에 있는가 → 반드시 교체했는지 확인
+- [x] 실제 연락 가능한 이메일이 `contact.html`에 있는가 → `aikoodaekking@gmail.com`으로 교체 완료
 - [ ] 사이트가 실제 도메인(또는 github.io 주소)으로 몇 주 이상 운영되어 콘텐츠가 쌓였는가 (신규 사이트는 보류될 수 있음)
 
 ### 신청 절차

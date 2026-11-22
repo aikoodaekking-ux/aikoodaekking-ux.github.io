@@ -65,6 +65,15 @@
     padding:6px 10px;border-radius:20px;
     font-size:12px;cursor:pointer;
   }
+  #pause-btn{
+    background:rgba(255,255,255,.08);
+    border:none;color:var(--text);
+    width:34px;height:34px;border-radius:50%;
+    font-size:14px;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;
+    visibility:hidden;
+    touch-action:manipulation;
+  }
 
   /* ---------- Play area ---------- */
   #stage{
@@ -157,6 +166,13 @@
     touch-action:manipulation;
   }
   button.cta:active{ transform:scale(.96); }
+  button.cta-secondary{
+    background:rgba(255,255,255,.08);
+    box-shadow:none;
+    color:var(--text);
+    font-size:clamp(14px,4vw,17px);
+    padding:12px 30px;
+  }
   .mute-btn{
     background:none;border:none;color:rgba(255,255,255,.6);
     font-size:13px;margin-top:4px;cursor:pointer;
@@ -170,6 +186,7 @@
   <div id="hud">
     <div class="chip"><span data-i18n="score">점수</span>: <span id="score">0</span></div>
     <div class="chip"><span id="timer">60</span>s</div>
+    <button id="pause-btn" aria-label="Pause">⏸</button>
     <button id="lang-toggle">EN</button>
   </div>
 
@@ -190,6 +207,13 @@
       <div class="best-row"><span data-i18n="best">최고 점수</span>: <span id="end-best">0</span></div>
       <button id="retry-btn" class="cta" data-i18n="retry">다시 하기</button>
     </div>
+
+    <!-- Pause overlay -->
+    <div id="pause-overlay" class="overlay hidden">
+      <h1 class="title" data-i18n="pausedTitle">일시정지</h1>
+      <button id="resume-btn" class="cta" data-i18n="resume">계속하기</button>
+      <button id="restart-btn" class="cta cta-secondary" data-i18n="restart">다시 시작</button>
+    </div>
   </div>
 
   <div id="ad-bottom" class="ad-slot" data-i18n="ad">광고 영역 (AD)</div>
@@ -204,12 +228,14 @@
     ko:{
       ad:"광고 영역 (AD)", score:"점수", best:"최고 점수",
       intro:"60초 동안 나타나는 원을 최대한 많이 터치하세요! 초록색은 보너스, 빨간색은 피하세요.",
-      start:"시작하기", timeup:"타임 업!", newrecord:"🎉 새 최고 점수!", retry:"다시 하기"
+      start:"시작하기", timeup:"타임 업!", newrecord:"🎉 새 최고 점수!", retry:"다시 하기",
+      pausedTitle:"일시정지", resume:"계속하기", restart:"다시 시작"
     },
     en:{
       ad:"AD SPACE", score:"Score", best:"Best",
       intro:"Tap as many circles as you can in 60 seconds! Green = bonus, Red = avoid.",
-      start:"Start", timeup:"Time's up!", newrecord:"🎉 New record!", retry:"Play Again"
+      start:"Start", timeup:"Time's up!", newrecord:"🎉 New record!", retry:"Play Again",
+      pausedTitle:"Paused", resume:"Resume", restart:"Restart"
     }
   };
   var lang = (navigator.language||"ko").toLowerCase().indexOf("ko")===0 ? "ko" : "ko"; // default ko regardless of browser
@@ -239,12 +265,17 @@
   var retryBtn = document.getElementById("retry-btn");
   var finalScoreEl = document.getElementById("final-score");
   var newRecordEl = document.getElementById("new-record");
+  var pauseBtn = document.getElementById("pause-btn");
+  var pauseOverlay = document.getElementById("pause-overlay");
+  var resumeBtn = document.getElementById("resume-btn");
+  var restartBtn = document.getElementById("restart-btn");
 
   var BEST_KEY = "reflexClicker.best";
   var best = parseInt(localStorage.getItem(BEST_KEY) || "0", 10);
   document.getElementById("start-best").textContent = best;
 
   var running = false;
+  var paused = false;
   var score = 0;
   var combo = 0;
   var timeLeft = ROUND_SECONDS;
@@ -285,17 +316,14 @@
     if(type==="trap") baseLife *= 0.8;
     var life = Math.max(550, baseLife);
 
-    var expired = false;
-    var timeout = setTimeout(function(){
-      expired = true;
-      removeTarget(el);
-      if(type!=="trap") combo = 0;
-    }, life);
+    el._expired = false;
+    el._type = type;
+    scheduleExpire(el, life);
 
     function handleHit(e){
-      if(expired) return;
+      if(el._expired || paused) return;
       e.preventDefault();
-      clearTimeout(timeout);
+      clearTimeout(el._expireTimeout);
       onHit(type, el, x+size/2, y+size/2);
     }
     el.addEventListener("pointerdown", handleHit, {passive:false});
@@ -308,6 +336,15 @@
     if(el.parentNode) el.parentNode.removeChild(el);
     var idx = activeTargets.indexOf(el);
     if(idx>-1) activeTargets.splice(idx,1);
+  }
+
+  function scheduleExpire(el, ms){
+    el._expireAt = Date.now() + ms;
+    el._expireTimeout = setTimeout(function(){
+      el._expired = true;
+      removeTarget(el);
+      if(el._type !== "trap") combo = 0;
+    }, ms);
   }
 
   function floatScore(text, x, y, color){
@@ -362,12 +399,15 @@
   }
 
   function startRound(){
+    paused = false;
+    pauseOverlay.classList.add("hidden");
     score = 0; combo = 0; timeLeft = ROUND_SECONDS;
     scoreEl.textContent = "0";
     timerEl.textContent = ROUND_SECONDS;
     startOverlay.classList.add("hidden");
     endOverlay.classList.add("hidden");
     running = true;
+    pauseBtn.style.visibility = "visible";
     activeTargets.slice().forEach(removeTarget);
     scheduleSpawn();
     tickTimer = setTimeout(tick, 1000);
@@ -375,6 +415,7 @@
 
   function endRound(){
     running = false;
+    pauseBtn.style.visibility = "hidden";
     clearTimeout(spawnTimer);
     clearTimeout(tickTimer);
     activeTargets.slice().forEach(removeTarget);
@@ -390,8 +431,39 @@
     endOverlay.classList.remove("hidden");
   }
 
+  function pauseGame(){
+    if(!running || paused) return;
+    paused = true;
+    clearTimeout(spawnTimer); spawnTimer = null;
+    clearTimeout(tickTimer); tickTimer = null;
+    activeTargets.forEach(function(el){
+      clearTimeout(el._expireTimeout);
+      el._remainingLife = Math.max(0, el._expireAt - Date.now());
+    });
+    pauseOverlay.classList.remove("hidden");
+  }
+
+  function resumeGame(){
+    if(!running || !paused) return;
+    paused = false;
+    pauseOverlay.classList.add("hidden");
+    activeTargets.forEach(function(el){
+      scheduleExpire(el, el._remainingLife);
+    });
+    scheduleSpawn();
+    tickTimer = setTimeout(tick, 1000);
+  }
+
   startBtn.addEventListener("click", startRound);
   retryBtn.addEventListener("click", startRound);
+  pauseBtn.addEventListener("click", pauseGame);
+  resumeBtn.addEventListener("click", resumeGame);
+  restartBtn.addEventListener("click", startRound);
+
+  // Auto-pause when the tab/app loses visibility mid-round
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden) pauseGame();
+  });
 
   // Prevent rubber-band scrolling / pinch zoom on mobile
   document.addEventListener("touchmove", function(e){ e.preventDefault(); }, {passive:false});
