@@ -187,7 +187,7 @@
     <div class="chip"><span data-i18n="score">점수</span>: <span id="score">0</span></div>
     <div class="chip"><span id="timer">60</span>s</div>
     <button id="pause-btn" aria-label="Pause">⏸</button>
-    <button id="lang-toggle">EN</button>
+    <button id="lang-toggle">KO</button>
   </div>
 
   <div id="stage">
@@ -251,7 +251,7 @@
       var key = el.getAttribute("data-i18n");
       if(dict[key]) el.textContent = dict[key];
     });
-    document.getElementById("lang-toggle").textContent = lang==="ko" ? "EN" : "한국어";
+    document.getElementById("lang-toggle").textContent = lang==="ko" ? "KO" : "EN";
     document.documentElement.lang = lang;
   }
   document.getElementById("lang-toggle").addEventListener("click", function(){
