@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>리플렉스 클리커 | Reflex Clicker - 1분 반응속도 게임</title>
+<meta name="description" content="60초 동안 나타나는 타겟을 빠르게 클릭해서 최고 점수를 노려보세요. 설치 없이 바로 즐기는 모바일 반응속도 클리커 게임.">
+<style>
+  :root{
+    --bg1:#0f0c29;
+    --bg2:#302b63;
+    --bg3:#24243e;
+    --accent:#ffd166;
+    --accent2:#ef476f;
+    --good:#06d6a0;
+    --text:#f5f5f7;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0;padding:0;width:100%;height:100%;
+    overflow:hidden;
+    touch-action:none;
+    background:#000;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;
+    color:var(--text);
+    user-select:none;
+  }
+  #app{
+    position:fixed;inset:0;
+    display:flex;flex-direction:column;
+    background:radial-gradient(circle at 50% 0%, var(--bg2), var(--bg1) 60%, var(--bg3));
+  }
+  /* ---------- Ad slots ---------- */
+  .ad-slot{
+    flex:0 0 auto;
+    width:100%;
+    display:flex;align-items:center;justify-content:center;
+    color:rgba(255,255,255,.35);
+    font-size:11px;
+    letter-spacing:.05em;
+    background:rgba(255,255,255,.03);
+    border:1px dashed rgba(255,255,255,.15);
+    overflow:hidden;
+  }
+  #ad-top{ min-height:50px; max-height:90px; }
+  #ad-bottom{ min-height:50px; max-height:90px; }
+  /* 광고 삽입 위치: 이 div 안에 Google AdSense <ins class="adsbygoogle">...</ins> 코드를 넣으세요. */
+
+  /* ---------- HUD ---------- */
+  #hud{
+    flex:0 0 auto;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 16px;
+    font-weight:700;
+    font-size:clamp(14px,4vw,18px);
+  }
+  #hud .chip{
+    background:rgba(255,255,255,.08);
+    padding:6px 12px;border-radius:20px;
+    backdrop-filter:blur(4px);
+  }
+  #lang-toggle{
+    background:rgba(255,255,255,.08);
+    border:none;color:var(--text);
+    padding:6px 10px;border-radius:20px;
+    font-size:12px;cursor:pointer;
+  }
+  #pause-btn{
+    background:rgba(255,255,255,.08);
+    border:none;color:var(--text);
+    width:34px;height:34px;border-radius:50%;
+    font-size:14px;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;
+    visibility:hidden;
+    touch-action:manipulation;
+  }
+
+  /* ---------- Play area ---------- */
+  #stage{
+    position:relative;
+    flex:1 1 auto;
+    width:100%;
+    overflow:hidden;
+  }
+  .target{
+    position:absolute;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:800;
+    color:#1a1a2e;
+    box-shadow:0 0 0 4px rgba(255,255,255,.15), 0 6px 14px rgba(0,0,0,.35);
+    transform:scale(0);
+    animation:pop-in .12s ease-out forwards;
+    cursor:pointer;
+    will-change:transform;
+  }
+  .target.normal{ background:radial-gradient(circle at 30% 30%, #ffe28a, var(--accent)); }
+  .target.bonus{ background:radial-gradient(circle at 30% 30%, #8affc1, var(--good)); }
+  .target.trap{ background:radial-gradient(circle at 30% 30%, #ff8fa3, var(--accent2)); }
+  @keyframes pop-in{ to{ transform:scale(1); } }
+  .target.hit{ animation:pop-out .15s ease-in forwards !important; pointer-events:none; }
+  @keyframes pop-out{ to{ transform:scale(1.6); opacity:0; } }
+
+  .float-score{
+    position:absolute;
+    font-weight:800;
+    font-size:18px;
+    pointer-events:none;
+    animation:float-up .6s ease-out forwards;
+  }
+  @keyframes float-up{
+    0%{ transform:translateY(0); opacity:1; }
+    100%{ transform:translateY(-50px); opacity:0; }
+  }
+
+  /* ---------- Overlays (start / end) ---------- */
+  .overlay{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;
+    background:rgba(10,8,30,.78);
+    backdrop-filter:blur(6px);
+    text-align:center;
+    padding:24px;
+    z-index:10;
+  }
+  .overlay.hidden{ display:none; }
+  .title{
+    font-size:clamp(28px,8vw,42px);
+    font-weight:900;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin:0;
+  }
+  .subtitle{
+    font-size:clamp(13px,3.6vw,16px);
+    color:rgba(255,255,255,.75);
+    max-width:320px;
+    margin:0;
+  }
+  .big-score{
+    font-size:clamp(40px,12vw,64px);
+    font-weight:900;
+    color:var(--accent);
+    margin:4px 0;
+  }
+  .best-row{
+    font-size:14px;
+    color:rgba(255,255,255,.7);
+  }
+  .new-record{
+    color:var(--good);
+    font-weight:800;
+    font-size:15px;
+  }
+  button.cta{
+    border:none;
+    background:linear-gradient(90deg,var(--accent2),#ff7aa8);
+    color:#fff;
+    font-weight:800;
+    font-size:clamp(16px,4.6vw,20px);
+    padding:14px 36px;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(239,71,111,.4);
+    touch-action:manipulation;
+  }
+  button.cta:active{ transform:scale(.96); }
+  button.cta-secondary{
+    background:rgba(255,255,255,.08);
+    box-shadow:none;
+    color:var(--text);
+    font-size:clamp(14px,4vw,17px);
+    padding:12px 30px;
+  }
+  .mute-btn{
+    background:none;border:none;color:rgba(255,255,255,.6);
+    font-size:13px;margin-top:4px;cursor:pointer;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="ad-top" class="ad-slot" data-i18n="ad">광고 영역 (AD)</div>
+
+  <div id="hud">
+    <div class="chip"><span data-i18n="score">점수</span>: <span id="score">0</span></div>
+    <div class="chip"><span id="timer">60</span>s</div>
+    <button id="pause-btn" aria-label="Pause">⏸</button>
+    <button id="lang-toggle">EN</button>
+  </div>
+
+  <div id="stage">
+    <!-- Start overlay -->
+    <div id="start-overlay" class="overlay">
+      <h1 class="title">REFLEX CLICKER</h1>
+      <p class="subtitle" data-i18n="intro">60초 동안 나타나는 원을 최대한 많이 터치하세요! 초록색은 보너스, 빨간색은 피하세요.</p>
+      <button id="start-btn" class="cta" data-i18n="start">시작하기</button>
+      <div class="best-row"><span data-i18n="best">최고 점수</span>: <span id="start-best">0</span></div>
+    </div>
+
+    <!-- End overlay -->
+    <div id="end-overlay" class="overlay hidden">
+      <p class="subtitle" data-i18n="timeup">타임 업!</p>
+      <div class="big-score" id="final-score">0</div>
+      <div class="new-record hidden" id="new-record" data-i18n="newrecord">🎉 새 최고 점수!</div>
+      <div class="best-row"><span data-i18n="best">최고 점수</span>: <span id="end-best">0</span></div>
+      <button id="retry-btn" class="cta" data-i18n="retry">다시 하기</button>
+    </div>
+
+    <!-- Pause overlay -->
+    <div id="pause-overlay" class="overlay hidden">
+      <h1 class="title" data-i18n="pausedTitle">일시정지</h1>
+      <button id="resume-btn" class="cta" data-i18n="resume">계속하기</button>
+      <button id="restart-btn" class="cta cta-secondary" data-i18n="restart">다시 시작</button>
+    </div>
+
+    <!-- Countdown overlay -->
+    <div id="countdown-overlay" class="overlay hidden">
+      <p class="subtitle" data-i18n="getReady">준비하세요!</p>
+      <div class="big-score" id="countdown-number">3</div>
+    </div>
+  </div>
+
+  <div id="ad-bottom" class="ad-slot" data-i18n="ad">광고 영역 (AD)</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- i18n ---------------- */
+  var i18n = {
+    ko:{
+      ad:"광고 영역 (AD)", score:"점수", best:"최고 점수",
+      intro:"60초 동안 나타나는 원을 최대한 많이 터치하세요! 초록색은 보너스, 빨간색은 피하세요.",
+      start:"시작하기", timeup:"타임 업!", newrecord:"🎉 새 최고 점수!", retry:"다시 하기",
+      pausedTitle:"일시정지", resume:"계속하기", restart:"다시 시작", getReady:"준비하세요!"
+    },
+    en:{
+      ad:"AD SPACE", score:"Score", best:"Best",
+      intro:"Tap as many circles as you can in 60 seconds! Green = bonus, Red = avoid.",
+      start:"Start", timeup:"Time's up!", newrecord:"🎉 New record!", retry:"Play Again",
+      pausedTitle:"Paused", resume:"Resume", restart:"Restart", getReady:"Get Ready!"
+    }
+  };
+  var lang = (navigator.language||"ko").toLowerCase().indexOf("ko")===0 ? "ko" : "ko"; // default ko regardless of browser
+  function applyLang(){
+    var dict = i18n[lang];
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var key = el.getAttribute("data-i18n");
+      if(dict[key]) el.textContent = dict[key];
+    });
+    document.getElementById("lang-toggle").textContent = lang==="ko" ? "EN" : "한국어";
+    document.documentElement.lang = lang;
+  }
+  document.getElementById("lang-toggle").addEventListener("click", function(){
+    lang = lang==="ko" ? "en" : "ko";
+    applyLang();
+  });
+  applyLang();
+
+  /* ---------------- State ---------------- */
+  var ROUND_SECONDS = 60;
+  var stage = document.getElementById("stage");
+  var scoreEl = document.getElementById("score");
+  var timerEl = document.getElementById("timer");
+  var startOverlay = document.getElementById("start-overlay");
+  var endOverlay = document.getElementById("end-overlay");
+  var startBtn = document.getElementById("start-btn");
+  var retryBtn = document.getElementById("retry-btn");
+  var finalScoreEl = document.getElementById("final-score");
+  var newRecordEl = document.getElementById("new-record");
+  var pauseBtn = document.getElementById("pause-btn");
+  var pauseOverlay = document.getElementById("pause-overlay");
+  var resumeBtn = document.getElementById("resume-btn");
+  var restartBtn = document.getElementById("restart-btn");
+  var countdownOverlay = document.getElementById("countdown-overlay");
+  var countdownNumberEl = document.getElementById("countdown-number");
+
+  var BEST_KEY = "reflexClicker.best";
+  var best = parseInt(localStorage.getItem(BEST_KEY) || "0", 10);
+  document.getElementById("start-best").textContent = best;
+
+  var running = false;
+  var paused = false;
+  var score = 0;
+  var combo = 0;
+  var timeLeft = ROUND_SECONDS;
+  var spawnTimer = null;
+  var tickTimer = null;
+  var countdownTimer = null;
+  var activeTargets = [];
+  var elapsedMs = 0;
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+
+  function vibrate(ms){
+    if(navigator.vibrate){ try{ navigator.vibrate(ms); }catch(e){} }
+  }
+
+  function spawnTarget(){
+    if(!running) return;
+    var rect = stage.getBoundingClientRect();
+    var size = rand(Math.max(36, rect.width*0.09), Math.max(56, rect.width*0.14));
+    size = Math.min(size, 90);
+    var x = rand(8, Math.max(8, rect.width - size - 8));
+    var y = rand(8, Math.max(8, rect.height - size - 8));
+
+    var roll = Math.random();
+    var type = "normal";
+    if(roll < 0.12) type = "bonus";
+    else if(roll < 0.22) type = "trap";
+
+    var el = document.createElement("div");
+    el.className = "target " + type;
+    el.style.width = size+"px";
+    el.style.height = size+"px";
+    el.style.left = x+"px";
+    el.style.top = y+"px";
+
+    // lifespan shrinks as time passes (difficulty ramp)
+    var progress = 1 - (timeLeft / ROUND_SECONDS); // 0 -> 1
+    var baseLife = 1500 - progress*700; // 1500ms -> 800ms
+    if(type==="trap") baseLife *= 0.8;
+    var life = Math.max(550, baseLife);
+
+    el._expired = false;
+    el._type = type;
+    scheduleExpire(el, life);
+
+    function handleHit(e){
+      if(el._expired || paused) return;
+      e.preventDefault();
+      clearTimeout(el._expireTimeout);
+      onHit(type, el, x+size/2, y+size/2);
+    }
+    el.addEventListener("pointerdown", handleHit, {passive:false});
+
+    activeTargets.push(el);
+    stage.appendChild(el);
+  }
+
+  function removeTarget(el){
+    if(el.parentNode) el.parentNode.removeChild(el);
+    var idx = activeTargets.indexOf(el);
+    if(idx>-1) activeTargets.splice(idx,1);
+  }
+
+  function scheduleExpire(el, ms){
+    el._expireAt = Date.now() + ms;
+    el._expireTimeout = setTimeout(function(){
+      el._expired = true;
+      removeTarget(el);
+      if(el._type !== "trap") combo = 0;
+    }, ms);
+  }
+
+  function floatScore(text, x, y, color){
+    var f = document.createElement("div");
+    f.className = "float-score";
+    f.style.left = x+"px";
+    f.style.top = y+"px";
+    f.style.color = color;
+    f.textContent = text;
+    stage.appendChild(f);
+    setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 650);
+  }
+
+  function onHit(type, el, x, y){
+    el.classList.add("hit");
+    setTimeout(function(){ removeTarget(el); }, 160);
+
+    if(type === "trap"){
+      combo = 0;
+      score = Math.max(0, score - 15);
+      floatScore("-15", x, y, "#ff6b81");
+      vibrate(80);
+    } else {
+      combo++;
+      var mult = Math.min(1 + combo*0.1, 4);
+      var base = type === "bonus" ? 30 : 10;
+      var gained = Math.round(base * mult);
+      score += gained;
+      floatScore("+"+gained, x, y, type==="bonus" ? "#06d6a0" : "#ffd166");
+      vibrate(15);
+    }
+    scoreEl.textContent = score;
+  }
+
+  function scheduleSpawn(){
+    if(!running) return;
+    spawnTarget();
+    var progress = 1 - (timeLeft / ROUND_SECONDS);
+    var interval = 850 - progress*450; // speeds up over time
+    interval = Math.max(300, interval);
+    spawnTimer = setTimeout(scheduleSpawn, interval);
+  }
+
+  function tick(){
+    timeLeft -= 1;
+    timerEl.textContent = Math.max(0, timeLeft);
+    if(timeLeft <= 0){
+      endRound();
+    } else {
+      tickTimer = setTimeout(tick, 1000);
+    }
+  }
+
+  function beginRound(){
+    paused = false;
+    pauseOverlay.classList.add("hidden");
+    score = 0; combo = 0; timeLeft = ROUND_SECONDS;
+    scoreEl.textContent = "0";
+    timerEl.textContent = ROUND_SECONDS;
+    startOverlay.classList.add("hidden");
+    endOverlay.classList.add("hidden");
+    running = true;
+    pauseBtn.style.visibility = "visible";
+    activeTargets.slice().forEach(removeTarget);
+    scheduleSpawn();
+    tickTimer = setTimeout(tick, 1000);
+  }
+
+  function startWithCountdown(){
+    if(countdownTimer) return;
+    running = false;
+    paused = false;
+    clearTimeout(spawnTimer); spawnTimer = null;
+    clearTimeout(tickTimer); tickTimer = null;
+    pauseBtn.style.visibility = "hidden";
+    startOverlay.classList.add("hidden");
+    endOverlay.classList.add("hidden");
+    pauseOverlay.classList.add("hidden");
+    activeTargets.slice().forEach(removeTarget);
+
+    var count = 3;
+    countdownNumberEl.textContent = count;
+    countdownOverlay.classList.remove("hidden");
+    countdownTimer = setInterval(function(){
+      count -= 1;
+      if(count > 0){
+        countdownNumberEl.textContent = count;
+      } else {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        countdownOverlay.classList.add("hidden");
+        beginRound();
+      }
+    }, 1000);
+  }
+
+  function endRound(){
+    running = false;
+    pauseBtn.style.visibility = "hidden";
+    clearTimeout(spawnTimer);
+    clearTimeout(tickTimer);
+    activeTargets.slice().forEach(removeTarget);
+
+    finalScoreEl.textContent = score;
+    var isNew = score > best;
+    if(isNew){
+      best = score;
+      localStorage.setItem(BEST_KEY, String(best));
+    }
+    newRecordEl.classList.toggle("hidden", !isNew);
+    document.getElementById("end-best").textContent = best;
+    endOverlay.classList.remove("hidden");
+  }
+
+  function pauseGame(){
+    if(!running || paused) return;
+    paused = true;
+    clearTimeout(spawnTimer); spawnTimer = null;
+    clearTimeout(tickTimer); tickTimer = null;
+    activeTargets.forEach(function(el){
+      clearTimeout(el._expireTimeout);
+      el._remainingLife = Math.max(0, el._expireAt - Date.now());
+    });
+    pauseOverlay.classList.remove("hidden");
+  }
+
+  function resumeGame(){
+    if(!running || !paused) return;
+    paused = false;
+    pauseOverlay.classList.add("hidden");
+    activeTargets.forEach(function(el){
+      scheduleExpire(el, el._remainingLife);
+    });
+    scheduleSpawn();
+    tickTimer = setTimeout(tick, 1000);
+  }
+
+  startBtn.addEventListener("click", startWithCountdown);
+  retryBtn.addEventListener("click", startWithCountdown);
+  pauseBtn.addEventListener("click", pauseGame);
+  resumeBtn.addEventListener("click", resumeGame);
+  restartBtn.addEventListener("click", startWithCountdown);
+
+  // Auto-pause when the tab/app loses visibility mid-round
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden) pauseGame();
+  });
+
+  // Prevent rubber-band scrolling / pinch zoom on mobile
+  document.addEventListener("touchmove", function(e){ e.preventDefault(); }, {passive:false});
+  document.addEventListener("gesturestart", function(e){ e.preventDefault(); });
+
+})();
+</script>
+</body>
+</html>
