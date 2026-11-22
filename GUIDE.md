@@ -1,38 +1,39 @@
 # 클릭존 배포 및 등록 가이드
 
+## 배포 완료 정보
+- **GitHub 저장소**: https://github.com/aikoodaekking-ux/clickzone
+- **라이브 사이트**: https://aikoodaekking-ux.github.io/clickzone/
+- **GitHub 계정**: aikoodaekking-ux
+- **문의 이메일**: aikoodaekking@gmail.com
+
 ## 0. 배포 전 꼭 바꿔야 할 것
 - [x] 문의 이메일: `aikoodaekking@gmail.com` 으로 교체 완료 (`contact.html`, `en/contact.html`)
-- [ ] `sitemap.xml`, `robots.txt`의 `https://YOUR-DOMAIN-HERE`를 실제 배포 주소로 교체 (1단계에서 주소가 정해진 뒤 진행)
+- [x] `sitemap.xml`, `robots.txt`를 실제 배포 주소(`https://aikoodaekking-ux.github.io/clickzone`)로 교체 완료
 - [ ] 광고 자리(`<div class="ad-slot">...</div>`, 게임 파일의 `#ad-top`/`#ad-bottom`)는 애드센스 심사 통과 후 `<ins class="adsbygoogle">` 코드로 교체
 
 ---
 
-## 1. GitHub Pages로 배포하기
+## 1. GitHub Pages 배포 (완료됨 ✅)
 
-1. https://github.com 에서 새 저장소(Repository) 생성
-   - 이름 예: `clickzone` (Public으로 생성해야 무료 Pages 사용 가능)
-2. 로컬 프로젝트를 저장소에 연결하고 푸시
-   ```
-   git remote add origin https://github.com/<본인계정>/clickzone.git
-   git branch -M main
-   git push -u origin main
-   ```
-3. GitHub 저장소 페이지 → **Settings → Pages**
-   - Source: `Deploy from a branch`
-   - Branch: `main` / `/ (root)` 선택 → Save
-4. 몇 분 후 `https://<본인계정>.github.io/clickzone/` 주소로 접속 가능
-5. (선택) 커스텀 도메인이 있다면 같은 Pages 설정 화면에서 Custom domain 입력 후, 도메인 등록업체에서 CNAME/A 레코드를 GitHub Pages로 연결
+저장소 생성, 코드 푸시, Pages 활성화까지 모두 완료되었습니다.
+- 몇 분 내로 https://aikoodaekking-ux.github.io/clickzone/ 에서 접속 가능합니다 (최초 반영에 1~10분 정도 걸릴 수 있어요).
+- 앞으로 파일을 수정하면 아래 명령으로 다시 배포됩니다:
+  ```
+  git add -A
+  git commit -m "변경 내용"
+  git push
+  ```
+  푸시 후 1~2분 내 자동으로 사이트에 반영됩니다.
+- (선택) 커스텀 도메인을 쓰고 싶다면 저장소 **Settings → Pages**에서 Custom domain을 입력하고, 도메인 등록업체에서 CNAME/A 레코드를 GitHub Pages로 연결하세요. 이 경우 `sitemap.xml`/`robots.txt`의 도메인도 다시 교체해야 합니다.
 
-> 주의: 저장소 경로가 `/clickzone/`처럼 하위 폴더가 되므로, 이 프로젝트의 모든 링크는 절대경로(`/`)가 아닌 상대경로(`./`, `../`)로 작성되어 있어 하위 폴더 배포에도 그대로 동작합니다.
-
-배포 주소가 정해지면 `sitemap.xml`과 `robots.txt`의 `YOUR-DOMAIN-HERE`를 실제 주소로 바꾸고 다시 커밋·푸시하세요.
+> 참고: 저장소 경로가 `/clickzone/`처럼 하위 폴더이기 때문에, 이 프로젝트의 모든 링크는 절대경로(`/`)가 아닌 상대경로(`./`, `../`)로 작성되어 있어 하위 폴더 배포에도 문제없이 동작합니다.
 
 ---
 
 ## 2. Google Search Console 등록
 
 1. https://search.google.com/search-console 접속 후 Google 계정으로 로그인
-2. "URL 접두어" 방식으로 사이트 주소 입력 (예: `https://내계정.github.io/clickzone/`)
+2. "URL 접두어" 방식으로 사이트 주소 입력: `https://aikoodaekking-ux.github.io/clickzone/`
 3. 소유권 확인: "HTML 태그" 방식을 추천
    - Search Console이 알려주는 `<meta name="google-site-verification" content="...">` 태그를 모든 `index.html`(최소 루트 index.html)의 `<head>`에 추가
    - 저장 후 다시 커밋/푸시 → Search Console에서 "확인" 클릭
