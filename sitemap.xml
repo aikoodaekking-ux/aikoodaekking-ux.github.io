@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Deployed at https://aikoodaekking-ux.github.io/clickzone/ via GitHub Pages -->
+<!-- Deployed at https://aikoodaekking-ux.github.io/ via GitHub Pages -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://aikoodaekking-ux.github.io/clickzone/index.html</loc>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://aikoodaekking-ux.github.io/clickzone/index.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aikoodaekking-ux.github.io/clickzone/en/index.html"/>
+    <loc>https://aikoodaekking-ux.github.io/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://aikoodaekking-ux.github.io/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aikoodaekking-ux.github.io/en/index.html"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://aikoodaekking-ux.github.io/clickzone/games/index.html</loc>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://aikoodaekking-ux.github.io/clickzone/games/index.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aikoodaekking-ux.github.io/clickzone/en/games/index.html"/>
+    <loc>https://aikoodaekking-ux.github.io/games/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://aikoodaekking-ux.github.io/games/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aikoodaekking-ux.github.io/en/games/index.html"/>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/index.html</loc><priority>0.8</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/reflex-training.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/clicker-game-history.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/short-break-games.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/healthy-gaming-hands.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/focus-and-reaction-time.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/mobile-browser-games-trend.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/mouse-vs-touch-reaction.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/combo-system-psychology.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/casual-games-stress-relief.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/blog/reaction-time-test-meaning.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/about.html</loc><priority>0.5</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/contact.html</loc><priority>0.5</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/privacy.html</loc><priority>0.3</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/terms.html</loc><priority>0.3</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/index.html</loc><priority>0.8</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/reflex-training.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/clicker-game-history.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/short-break-games.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/healthy-gaming-hands.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/focus-and-reaction-time.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/mobile-browser-games-trend.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/mouse-vs-touch-reaction.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/combo-system-psychology.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/casual-games-stress-relief.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/blog/reaction-time-test-meaning.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/about.html</loc><priority>0.5</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/contact.html</loc><priority>0.5</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/terms.html</loc><priority>0.3</priority></url>
 
   <url>
-    <loc>https://aikoodaekking-ux.github.io/clickzone/en/index.html</loc>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://aikoodaekking-ux.github.io/clickzone/index.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aikoodaekking-ux.github.io/clickzone/en/index.html"/>
+    <loc>https://aikoodaekking-ux.github.io/en/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://aikoodaekking-ux.github.io/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aikoodaekking-ux.github.io/en/index.html"/>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/games/index.html</loc><priority>0.8</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/index.html</loc><priority>0.7</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/reflex-training.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/clicker-game-history.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/short-break-games.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/healthy-gaming-hands.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/focus-and-reaction-time.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/mobile-browser-games-trend.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/mouse-vs-touch-reaction.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/combo-system-psychology.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/casual-games-stress-relief.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/blog/reaction-time-test-meaning.html</loc><priority>0.6</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/about.html</loc><priority>0.4</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/contact.html</loc><priority>0.4</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/privacy.html</loc><priority>0.2</priority></url>
-  <url><loc>https://aikoodaekking-ux.github.io/clickzone/en/terms.html</loc><priority>0.2</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/games/index.html</loc><priority>0.8</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/index.html</loc><priority>0.7</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/reflex-training.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/clicker-game-history.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/short-break-games.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/healthy-gaming-hands.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/focus-and-reaction-time.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/mobile-browser-games-trend.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/mouse-vs-touch-reaction.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/combo-system-psychology.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/casual-games-stress-relief.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/blog/reaction-time-test-meaning.html</loc><priority>0.6</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/about.html</loc><priority>0.4</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/contact.html</loc><priority>0.4</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/privacy.html</loc><priority>0.2</priority></url>
+  <url><loc>https://aikoodaekking-ux.github.io/en/terms.html</loc><priority>0.2</priority></url>
 
 </urlset>
