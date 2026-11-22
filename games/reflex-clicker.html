@@ -214,6 +214,12 @@
       <button id="resume-btn" class="cta" data-i18n="resume">계속하기</button>
       <button id="restart-btn" class="cta cta-secondary" data-i18n="restart">다시 시작</button>
     </div>
+
+    <!-- Countdown overlay -->
+    <div id="countdown-overlay" class="overlay hidden">
+      <p class="subtitle" data-i18n="getReady">준비하세요!</p>
+      <div class="big-score" id="countdown-number">3</div>
+    </div>
   </div>
 
   <div id="ad-bottom" class="ad-slot" data-i18n="ad">광고 영역 (AD)</div>
@@ -229,13 +235,13 @@
       ad:"광고 영역 (AD)", score:"점수", best:"최고 점수",
       intro:"60초 동안 나타나는 원을 최대한 많이 터치하세요! 초록색은 보너스, 빨간색은 피하세요.",
       start:"시작하기", timeup:"타임 업!", newrecord:"🎉 새 최고 점수!", retry:"다시 하기",
-      pausedTitle:"일시정지", resume:"계속하기", restart:"다시 시작"
+      pausedTitle:"일시정지", resume:"계속하기", restart:"다시 시작", getReady:"준비하세요!"
     },
     en:{
       ad:"AD SPACE", score:"Score", best:"Best",
       intro:"Tap as many circles as you can in 60 seconds! Green = bonus, Red = avoid.",
       start:"Start", timeup:"Time's up!", newrecord:"🎉 New record!", retry:"Play Again",
-      pausedTitle:"Paused", resume:"Resume", restart:"Restart"
+      pausedTitle:"Paused", resume:"Resume", restart:"Restart", getReady:"Get Ready!"
     }
   };
   var lang = (navigator.language||"ko").toLowerCase().indexOf("ko")===0 ? "ko" : "ko"; // default ko regardless of browser
@@ -269,6 +275,8 @@
   var pauseOverlay = document.getElementById("pause-overlay");
   var resumeBtn = document.getElementById("resume-btn");
   var restartBtn = document.getElementById("restart-btn");
+  var countdownOverlay = document.getElementById("countdown-overlay");
+  var countdownNumberEl = document.getElementById("countdown-number");
 
   var BEST_KEY = "reflexClicker.best";
   var best = parseInt(localStorage.getItem(BEST_KEY) || "0", 10);
@@ -281,6 +289,7 @@
   var timeLeft = ROUND_SECONDS;
   var spawnTimer = null;
   var tickTimer = null;
+  var countdownTimer = null;
   var activeTargets = [];
   var elapsedMs = 0;
 
@@ -398,7 +407,7 @@
     }
   }
 
-  function startRound(){
+  function beginRound(){
     paused = false;
     pauseOverlay.classList.add("hidden");
     score = 0; combo = 0; timeLeft = ROUND_SECONDS;
@@ -411,6 +420,34 @@
     activeTargets.slice().forEach(removeTarget);
     scheduleSpawn();
     tickTimer = setTimeout(tick, 1000);
+  }
+
+  function startWithCountdown(){
+    if(countdownTimer) return;
+    running = false;
+    paused = false;
+    clearTimeout(spawnTimer); spawnTimer = null;
+    clearTimeout(tickTimer); tickTimer = null;
+    pauseBtn.style.visibility = "hidden";
+    startOverlay.classList.add("hidden");
+    endOverlay.classList.add("hidden");
+    pauseOverlay.classList.add("hidden");
+    activeTargets.slice().forEach(removeTarget);
+
+    var count = 3;
+    countdownNumberEl.textContent = count;
+    countdownOverlay.classList.remove("hidden");
+    countdownTimer = setInterval(function(){
+      count -= 1;
+      if(count > 0){
+        countdownNumberEl.textContent = count;
+      } else {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        countdownOverlay.classList.add("hidden");
+        beginRound();
+      }
+    }, 1000);
   }
 
   function endRound(){
@@ -454,11 +491,11 @@
     tickTimer = setTimeout(tick, 1000);
   }
 
-  startBtn.addEventListener("click", startRound);
-  retryBtn.addEventListener("click", startRound);
+  startBtn.addEventListener("click", startWithCountdown);
+  retryBtn.addEventListener("click", startWithCountdown);
   pauseBtn.addEventListener("click", pauseGame);
   resumeBtn.addEventListener("click", resumeGame);
-  restartBtn.addEventListener("click", startRound);
+  restartBtn.addEventListener("click", startWithCountdown);
 
   // Auto-pause when the tab/app loses visibility mid-round
   document.addEventListener("visibilitychange", function(){
