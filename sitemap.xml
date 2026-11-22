@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  IMPORTANT: Replace "https://YOUR-DOMAIN-HERE" below with your real deployed URL
+  (e.g. https://yourname.github.io/clickzone or your custom domain) before
+  submitting this sitemap to Google Search Console / Naver Search Advisor.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://YOUR-DOMAIN-HERE/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://YOUR-DOMAIN-HERE/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://YOUR-DOMAIN-HERE/en/index.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://YOUR-DOMAIN-HERE/games/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://YOUR-DOMAIN-HERE/games/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://YOUR-DOMAIN-HERE/en/games/index.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/index.html</loc><priority>0.8</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/reflex-training.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/clicker-game-history.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/short-break-games.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/healthy-gaming-hands.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/focus-and-reaction-time.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/mobile-browser-games-trend.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/mouse-vs-touch-reaction.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/combo-system-psychology.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/casual-games-stress-relief.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/blog/reaction-time-test-meaning.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/about.html</loc><priority>0.5</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/contact.html</loc><priority>0.5</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/terms.html</loc><priority>0.3</priority></url>
+
+  <url>
+    <loc>https://YOUR-DOMAIN-HERE/en/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://YOUR-DOMAIN-HERE/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://YOUR-DOMAIN-HERE/en/index.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/games/index.html</loc><priority>0.8</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/index.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/reflex-training.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/clicker-game-history.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/short-break-games.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/healthy-gaming-hands.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/focus-and-reaction-time.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/mobile-browser-games-trend.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/mouse-vs-touch-reaction.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/combo-system-psychology.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/casual-games-stress-relief.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/blog/reaction-time-test-meaning.html</loc><priority>0.6</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/about.html</loc><priority>0.4</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/contact.html</loc><priority>0.4</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/privacy.html</loc><priority>0.2</priority></url>
+  <url><loc>https://YOUR-DOMAIN-HERE/en/terms.html</loc><priority>0.2</priority></url>
+
+</urlset>
